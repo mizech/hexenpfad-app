@@ -29,8 +29,10 @@ struct ContentView: View {
             }.padding()
                 .navigationTitle("Hexenpfad")
                 .onAppear() {
-                    let seed = Seed(modelContext: context)
-                    seed.insertHighlights()
+                    if highlights.count == 0 {
+                        let seed = Seed(modelContext: context)
+                        seed.insertHighlights()
+                    }
                     print(highlights.count)
                 }
         }

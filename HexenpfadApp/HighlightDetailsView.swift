@@ -8,32 +8,33 @@ struct HighlightDetailsView: View {
     @State var playerState = PlayerState.paused
     
     var body: some View {
-         ScrollView {
+        ScrollView {
             VStack(spacing: 12) {
                 Text(highlight.title)
                     .font(.title)
                 Text(highlight.desc)
                 Button {
-                    if let audioFile = Bundle.main.path(forResource: highlight.audioFile, ofType: "mp3") {
-                        do {
-                            audioPlayer = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: audioFile))
-                        } catch {
-                            print(error)
-                        }
-                        if let audioPlayer = audioPlayer {
-                            switch playerState {
-                                case .playing:
-                                    audioPlayer.pause()
-                                    playerState = PlayerState.paused
-                                case .paused:
-                                    audioPlayer.play()
-                                    playerState = PlayerState.playing
-                            }
+                    if let audioPlayer = audioPlayer {
+                        switch playerState {
+                            case .playing:
+                                audioPlayer.pause()
+                                playerState = PlayerState.paused
+                            case .paused:
+                                audioPlayer.play()
+                                playerState = PlayerState.playing
                         }
                     }
                 } label: {
-                    Label(playerState.getCaption, systemImage: playerState.getSysImg)
-                        .font(.title)
+                    Label(
+                        playerState.getCaption,
+                        systemImage: playerState.getSysImg
+                    )
+                    .font(.title)
+                    .frame(height: 46)
+                    .frame(maxWidth: .infinity)
+                    .background(.blue)
+                    .foregroundStyle(.white)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
                 }
                 ForEach(highlight.image, id: \.self) { img in
                     Image(img)
@@ -42,8 +43,16 @@ struct HighlightDetailsView: View {
                 }
             }
             .padding()
+        }.onAppear() {
+            if let audioFile = Bundle.main.path(forResource: highlight.audioFile, ofType: "mp3") {
+                do {
+                    audioPlayer = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: audioFile))
+                } catch {
+                    print(error)
+                }
+            }
         }
-     }
+    }
 }
 
 #Preview {
