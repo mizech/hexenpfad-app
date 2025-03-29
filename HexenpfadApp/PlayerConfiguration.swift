@@ -9,7 +9,7 @@ enum PlayerState {
             case .playing:
                 return "Pause"
             case .paused:
-                return "Play"
+                return "Abspielen"
         }
     }
     
