@@ -3,7 +3,7 @@ import SwiftUI
 
 struct ContentView: View {
     @Environment(\.modelContext) var context
-    
+    // Stand: 17.05.2025
     @Query(sort: \Highlight.title) var highlights: [Highlight]
     
     @State var isHelpSheetShown = false
